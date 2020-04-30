@@ -47,7 +47,7 @@ func UnmarshalUsers(users []*User) []*pb.User {
 type Repository interface {
 	GetAll(ctx context.Context) ([]*User, error)
 	Get(ctx context.Context, id string) (*User, error)
-	Create(ctx context.Context, user *pb.User) error
+	Create(ctx context.Context, user *User) error
 	GetByEmailAndPassword(ctx context.Context, user *User) (*User, error)
 }
 
@@ -77,14 +77,14 @@ func (ur *UserRepository) Get(ctx context.Context, id string) (*User, error) {
 	return user, nil
 }
 
-func (ur *UserRepository) GetByEmailAndPassword(user *User) (*User, error) {
+func (ur *UserRepository) GetByEmailAndPassword(ctx context.Context, user *User) (*User, error) {
 	if err := ur.db.First(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
 }
 
-func (ur *UserRepository) Create(user *User) error {
+func (ur *UserRepository) Create(ctx context.Context, user *User) error {
 	if err := ur.db.Create(user).Error; err != nil {
 		return err
 	}

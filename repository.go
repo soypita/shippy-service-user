@@ -48,7 +48,7 @@ type Repository interface {
 	GetAll(ctx context.Context) ([]*User, error)
 	Get(ctx context.Context, id string) (*User, error)
 	Create(ctx context.Context, user *User) error
-	GetByEmailAndPassword(ctx context.Context, user *User) (*User, error)
+	GetByEmail(ctx context.Context, email string) (*User, error)
 }
 
 type UserRepository struct {
@@ -77,7 +77,9 @@ func (ur *UserRepository) Get(ctx context.Context, id string) (*User, error) {
 	return user, nil
 }
 
-func (ur *UserRepository) GetByEmailAndPassword(ctx context.Context, user *User) (*User, error) {
+func (ur *UserRepository) GetByEmail(ctx context.Context, email string) (*User, error) {
+	var user *User
+	user.Email = email
 	if err := ur.db.First(&user).Error; err != nil {
 		return nil, err
 	}

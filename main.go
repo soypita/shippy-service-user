@@ -27,9 +27,9 @@ func main() {
 	srv.Init()
 
 	repository := &UserRepository{db}
-
+	tokenService := TokenService{repository}
 	// Register handler
-	h := &service{repository}
+	h := &service{repository, tokenService}
 
 	pb.RegisterUserServiceHandler(srv.Server(), h)
 

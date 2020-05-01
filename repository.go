@@ -69,7 +69,7 @@ func (ur *UserRepository) GetAll(ctx context.Context) ([]*User, error) {
 }
 
 func (ur *UserRepository) Get(ctx context.Context, id string) (*User, error) {
-	var user *User
+	user := &User{}
 	user.Id = id
 	if err := ur.db.First(&user).Error; err != nil {
 		return nil, err
@@ -78,9 +78,9 @@ func (ur *UserRepository) Get(ctx context.Context, id string) (*User, error) {
 }
 
 func (ur *UserRepository) GetByEmail(ctx context.Context, email string) (*User, error) {
-	var user *User
+	user := &User{}
 	user.Email = email
-	if err := ur.db.First(&user).Error; err != nil {
+	if err := ur.db.First(user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil

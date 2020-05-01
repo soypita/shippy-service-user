@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/micro/go-micro"
 	pb "github.com/soypita/shippy-service-user/proto/user"
@@ -11,6 +12,7 @@ func main() {
 
 	db, err := CreateConnection()
 	defer db.Close()
+	log.Println("Success establish connection to database")
 
 	if err != nil {
 		panic(err)

@@ -28,10 +28,12 @@ func main() {
 	// Init will parse the command line flags.
 	srv.Init()
 
+	pubsub := micro.NewPublisher("user.created", srv.Client())
+
 	repository := &UserRepository{db}
 	tokenService := TokenService{repository}
 	// Register handler
-	h := &service{repository, tokenService}
+	h := &service{repository, tokenService, pubsub}
 
 	pb.RegisterUserServiceHandler(srv.Server(), h)
 
